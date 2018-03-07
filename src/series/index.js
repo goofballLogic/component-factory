@@ -129,7 +129,6 @@ export function ticks( min, max, ticksRequired ) {
 	// find a set of ticks for this order of magnitude
 	let set = findTicks( min, max, ticksRequired, order );
 
-if ( set === null ) throw new Error( `${min} ${max} ${ticksRequired} ${order}`);
 	// while empty intervals exist at the top or bottom of the scale, reduce the order of magnitude and try again
 	while( min > set[ 1 ] || max < set[ set.length -2 ] ) {
 
