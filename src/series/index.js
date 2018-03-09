@@ -33,6 +33,7 @@ export function accumulate( data, keyName, valueName ) {
 const ifUndef = ( x, d ) => typeof x === "undefined" ? d : x;
 const min = ( x, y ) => ifUndef( x, ( y || 0 ) + 1 ) <= y ? x : y;
 const max = ( x, y ) => ifUndef( x, ( y || 0 ) - 1 ) >= y ? x : y;
+export const ord = x => typeof x === "string" ? ( new Date( x ) ).valueOf() : x;
 
 export function seriesAnalysis( series ) {
 
@@ -43,7 +44,17 @@ export function seriesAnalysis( series ) {
 			min( ( ret[ i ] || [] )[ 0 ], x ),
 			max( ( ret[ i ] || [] )[ 1 ], x )
 
-		] ),
+		] ).map( ( [ min, max ] ) => ( [
+
+			min, max,
+			ord( min ), ord( max )
+
+		] ) ).map( ( [ min, max, omin, omax ] ) => ( [
+
+			min, max, omin, omax,
+			omax - omin
+
+		] ) ),
 		[]
 
 	);

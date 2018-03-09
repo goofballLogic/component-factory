@@ -1,16 +1,16 @@
 .g2 {
 
 	overflow: auto;
-
+	font-size: 8pt;
 }
 pre {
 
-	font-size: 10px;
-	max-height: 300px;
+	font-size: 8pt;
+	max-height: 200px;
 	overflow-y: auto;
 	width: 300px;
 	padding: 15px;
-	margin: 15px;
+	margin: 10px 5px;
 	border: solid 1px silver;
 	display: inline-block;
 
