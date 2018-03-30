@@ -1,3 +1,10 @@
+const ifUndef = ( x, d ) => typeof x === "undefined" ? d : x;
+const min = ( x, y ) => ifUndef( x, ( y || 0 ) + 1 ) <= y ? x : y;
+const max = ( x, y ) => ifUndef( x, ( y || 0 ) - 1 ) >= y ? x : y;
+// these functions aren't completely accurate because they count the leading 0 in number less than 0
+const withSignificantPlaces = ( x, p ) => parseFloat( parseFloat( x ).toPrecision( p ) );
+const significantPlaces = x => ( x.toString().replace( ".", "" ).length );
+
 export const sampleData = [
   { when: "2018-01-01", score: 1 },
   { when: "2018-01-03", score: 4 },
@@ -19,6 +26,30 @@ export const sampleData = [
   { when: "2018-04-01", score: -2 },
 ];
 
+export function generateData( seriesCount, minDate, maxDate ) {
+
+	const series = [];
+	for( let i = 0; i < seriesCount; i++ ) { series.push( [] ); }
+	for( let i = new Date( minDate ); i <= maxDate; i.setDate( i.getDate() + Math.random() * 20 ) ) {
+		
+		for( let j = 0; j < seriesCount; j++ ) {
+
+			var score = Math.round( Math.random() * 8 - 3 );
+			if ( score === 0 ) continue;
+			series[ j ].push( { 
+				
+				when: new Date( i ).toISOString().slice( 0, 10 ),
+				score
+			
+			} )
+
+		}
+
+	};
+	return series;
+	
+}
+
 export function accumulate( data, keyName, valueName ) {
 
 	const accumulateIntoIndex = ( index, key, value ) => ( { ...index, [ key ]: ( index[ key ] || 0 ) + value } );
@@ -30,10 +61,13 @@ export function accumulate( data, keyName, valueName ) {
 
 };
 
-const ifUndef = ( x, d ) => typeof x === "undefined" ? d : x;
-const min = ( x, y ) => ifUndef( x, ( y || 0 ) + 1 ) <= y ? x : y;
-const max = ( x, y ) => ifUndef( x, ( y || 0 ) - 1 ) >= y ? x : y;
 export const ord = x => typeof x === "string" ? ( new Date( x ) ).valueOf() : x;
+
+export function seriesAnalysisSingle( series ) {
+
+	return seriesAnalysis( series.map( x => [ x ] ) )[ 0 ];
+
+}
 
 export function seriesAnalysis( series ) {
 
@@ -44,26 +78,24 @@ export function seriesAnalysis( series ) {
 			min( ( ret[ i ] || [] )[ 0 ], x ),
 			max( ( ret[ i ] || [] )[ 1 ], x )
 
-		] ).map( ( [ min, max ] ) => ( [
-
-			min, max,
-			ord( min ), ord( max )
-
-		] ) ).map( ( [ min, max, omin, omax ] ) => ( [
-
-			min, max, omin, omax,
-			omax - omin
-
-		] ) ),
+		] ),
 		[]
 
-	);
+	).map( ( [ min, max ] ) => ( {
+
+		min,
+		max,
+		omin: ord( min ),
+		omax: ord( max )
+
+	} ) ).map( x => ( {
+
+		...x,
+		size: x.omax - x.omin
+
+	} ) );
 
 }
-
-// these functions aren't completely accurate because they count the leading 0 in number less than 0
-const withSignificantPlaces = ( x, p ) => parseFloat( parseFloat( x ).toPrecision( p ) );
-const significantPlaces = x => ( x.toString().replace( ".", "" ).length );
 
 // attempt to find a set of ticks encompassing this min and max using the given order of magnitude (10-based)
 function findTicks( min, max, ticksRequired, order ) {

@@ -3,7 +3,6 @@ import './Graph1.css';
 
 const min = ( series, order ) => series.reduce( ( curr, x ) => x[ order ] < curr[ order ] ? x : curr );
 const max = ( series, order ) => series.reduce( ( curr, x ) => x[ order ] > curr[ order ] ? x : curr );
-const perDay = 86400000;
 
 const raw = [
   [ "2018-01-01", 1 ],

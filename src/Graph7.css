@@ -1,0 +1,56 @@
+.g7 {
+
+    min-height: 100vh;
+    padding-top: 50px;
+    font-size: 10px;
+
+}
+.g7 .tooltip {
+
+    background-color: rgba( 255, 255, 255, 0.9 );
+    box-shadow: 3px 3px 1px 1px silver;
+    padding: 10px;
+    min-width: 150px;
+    text-align: center;
+    border: solid 1px black;
+
+}
+.g7 .tooltip p {
+
+    margin: 0;
+    font-size: 1.2em;
+    line-height: 1.5;
+
+}
+.g7 .tooltip .when {
+
+    background-color: black;
+    color: white;
+    padding: 10px;
+    margin: -10px -10px 5px -10px;
+    
+}
+.g7 .tooltip .scores {
+
+    display: flex;
+    white-space: nowrap;
+}
+
+.g7 .tooltip .scores .score-name,
+.g7 .tooltip .scores .score-score {
+
+    flex: 1;
+    text-align: left;
+
+}
+.g7 .tooltip .scores .score-score {
+
+    text-align: right;
+
+}
+.g7 .recharts-line path {
+
+    stroke-width: 4;
+    stroke-opacity: 0.5;
+
+}
